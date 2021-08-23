@@ -1,0 +1,74 @@
+.kontejner{
+    display:flex;
+    flex-direction: row;
+    margin-bottom: 30px;
+}
+
+.formaKontejner{
+    display: flex;
+    flex-basis: 200px;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+h3, h4{
+    align-self: center;
+}
+
+.punktoviKontejner{
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+
+
+.vakcinaKontejner{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    border: 1px solid black;
+    border-collapse: collapse;
+    margin: 0 2px;
+}
+
+.punkt{
+    flex: 1 1 10px;
+    margin: 5px 5px;
+    border: 1px solid black;
+    text-align: center;
+}
+
+.vakcina{
+    align-self: center;
+}
+
+button{
+    margin-top: 5px;
+
+}
+
+hr.solid {
+    width: 100%;
+    border-top: 2px solid #bbb;
+}
+
+
+  
+@media only screen and (max-width: 800px){
+    .kontejner{
+        flex-direction: column;
+    }
+
+    .punktoviKontejner{
+        flex-basis: 300px;
+        margin-top: 20px;
+        flex-direction: column;
+    }
+
+    .punkt{
+        margin-bottom: 10px;
+    }
+}
