@@ -26,11 +26,61 @@ export class Ambulanta{
         host.appendChild(this.kontejner);
         
         await this.ucitajVakcine();
-        
+
+
         this.crtajFormu(this.kontejner);
         this.crtajPunktove(this.kontejner);
 
 
+    }
+
+
+
+    /* 
+
+        DODAT DEO ZA BRISANJE AMBULANTE
+
+    */
+
+    crtajAmbulantu(host){
+        if(!host)
+        throw new Error("Host nije pronadjen");
+
+        let formaAmbulante = document.createElement("div");
+        formaAmbulante.className = "formaAmbulante";
+        host.appendChild(formaAmbulante);
+
+        let labela = document.createElement("h3");
+        labela.innerHTML = this.ime;
+        formaAmbulante.appendChild(labela);
+
+
+        labela = document.createElement("label");
+        labela.innerHTML = "Grad: " + this.grad;
+        formaAmbulante.appendChild(labela);
+
+        labela = document.createElement("label");
+        labela.innerHTML = "Adresa: " + this.adresa;
+        formaAmbulante.appendChild(labela);
+
+        let button = document.createElement("button");
+        button.innerHTML = "Obrisi ambulantu";
+        formaAmbulante.appendChild(button);
+        button.onclick = () => {
+            fetch(`https://localhost:5001/Ambulanta/ObrisiAmbulantu/${this.id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+
+                })
+            }).then(p => {
+                this.kontejner.parentNode.removeChild(this.kontejner);
+            }).catch (p => {
+                alert("Error");
+            });;
+        }
     }
 
     
@@ -41,6 +91,8 @@ export class Ambulanta{
         let formaKontejner = document.createElement("div");
         formaKontejner.className = "formaKontejner";
         host.appendChild(formaKontejner);
+                
+        this.crtajAmbulantu(formaKontejner);
 
         let labela = document.createElement("h3");
         labela.innerHTML = "Vakcinacija";
@@ -121,6 +173,25 @@ export class Ambulanta{
             let jmbg = parseInt(formaKontejner.querySelector(".jmbgGradjana").value);
             let telefon = formaKontejner.querySelector(".telefonGradjana").value;
 
+            if(ime == ""){
+                alert("Niste uneli ime");
+                return;
+            }
+
+            if(prezime == ""){
+                alert("Niste uneli prezime");
+                return;
+            }
+
+            if(isNaN(jmbg)){
+                alert("Niste uneli JMBG");
+                return;
+            }
+
+            if(telefon == ""){
+                alert("Niste uneli telefon");
+                return;
+            }
             /* 
 
                 Provera podataka da li je upisano nesto
@@ -129,6 +200,7 @@ export class Ambulanta{
 
             let idVakcine = parseInt(this.kontejner.querySelector(`input[name="${this.ime}"]:checked`).value);
             let vakcina = this.vakcine.find(vak => vak.id === idVakcine);
+
 
             let gradjanin = new Gradjanin(jmbg, ime, prezime, telefon, vakcina);
 
@@ -205,6 +277,16 @@ export class Ambulanta{
         button.onclick = () => {
             let imeV = formaKontejner.querySelector(".imeVakcine").value;
             let kolicina = parseInt(formaKontejner.querySelector(".kolicinaVakcine").value);
+
+            if(isNaN(kolicina)){
+                alert("Niste uneli kolicinu vakcine");
+                return;
+            }
+
+            if(imeV == ""){
+                alert("Niste uneli ime vakcine");
+                return;
+            }
             fetch(`https://localhost:5001/Ambulanta/DodajVakcinu/${this.id}`, {
                 method: "POST",
                 headers: {
@@ -217,7 +299,7 @@ export class Ambulanta{
                 })
             }).then(
                 alert(`Uspesno dodata vakcina ${imeV}`),
-                window.location.reload()
+                window.location.reload(),
             )
         }
         formaKontejner.appendChild(button);
@@ -239,7 +321,9 @@ export class Ambulanta{
                 })
             }).then(
                 alert(`Uspesno dodate ${kolicina} jedinice vakcine ${imeV}`),
-                window.location.reload()
+                window.location.reload(),
+
+
             )
         }
         formaKontejner.appendChild(button);
