@@ -2,6 +2,8 @@
     display:flex;
     flex-direction: row;
     margin-bottom: 30px;
+    border: 2px solid rgb(219, 143, 143);
+    padding: 10px 10px;
 }
 
 .formaKontejner{
@@ -43,6 +45,7 @@ h3, h4{
 
 .vakcina{
     align-self: center;
+    word-wrap: break-word;
 }
 
 button{
@@ -53,6 +56,12 @@ button{
 hr.solid {
     width: 100%;
     border-top: 2px solid #bbb;
+}
+
+
+.formaAmbulante{
+    display: flex;
+    flex-direction: column;
 }
 
 
